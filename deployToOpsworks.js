@@ -1,14 +1,20 @@
-var AWS = require('aws-sdk'); 
+var AWS = require('aws-sdk');
+
+var BAMBOO_AWS_ID = process.argv.awsID || process.env.BAMBOO_AWS_ID;
+var BAMBOO_AWS_SECRET = process.argv.secret || process.env.BAMBOO_AWS_SECRET;
+var BAMBOO_AWS_REGION = process.argv.region || process.env.BAMBOO_AWS_REGION || 'us-east-1';
+var BAMBOO_AWS_STACKS = process.argv.stacks || process.env.BAMBOO_AWS_STACKS || '';
+var BAMBOO_AWS_APPS = process.argv.apps || process.env.BAMBOO_AWS_APPS || '';
+
 var config = new AWS.Config({
-	accessKeyId: process.env.BAMBOO_AWS_ID,
-	secretAccessKey: process.env.BAMBOO_AWS_SECRET,
-	region: process.env.BAMBOO_AWS_REGION,
+	accessKeyId: BAMBOO_AWS_ID,
+	secretAccessKey: BAMBOO_AWS_SECRET,
+	region: BAMBOO_AWS_REGION
 });
 
 var opsworks = new AWS.OpsWorks( config );
-
-var stackNames = process.env.BAMBOO_AWS_STACKS.split(',');
-var appNames = process.env.BAMBOO_AWS_APPS.split(',');
+var stackNames = BAMBOO_AWS_STACKS.split(',');
+var appNames = BAMBOO_AWS_APPS.split(',');
 
 var fireDeploy = function( stackID , appID ) {
 	

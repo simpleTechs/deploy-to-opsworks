@@ -6,9 +6,9 @@ rem Update this to be your AWS IAM secret
 
 set BAMBOO_AWS_SECRET=CHANGE_ME
 
-rem Leave this alone, OpsWorks is only in us-east-1 for gloabl use
+rem (optional) Leave this alone, OpsWorks is only in us-east-1 for gloabl use
 
-set BAMBOO_AWS_REGION=us-east-1
+rem set BAMBOO_AWS_REGION=us-east-1
 
 rem Set this to be a comma-delimited list of stacks using their name
 
