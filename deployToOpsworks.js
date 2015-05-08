@@ -1,10 +1,19 @@
 var AWS = require('aws-sdk');
 
-var BAMBOO_AWS_ID = process.argv.awsID || process.env.BAMBOO_AWS_ID;
-var BAMBOO_AWS_SECRET = process.argv.secret || process.env.BAMBOO_AWS_SECRET;
-var BAMBOO_AWS_REGION = process.argv.region || process.env.BAMBOO_AWS_REGION || 'us-east-1';
-var BAMBOO_AWS_STACKS = process.argv.stacks || process.env.BAMBOO_AWS_STACKS || '';
-var BAMBOO_AWS_APPS = process.argv.apps || process.env.BAMBOO_AWS_APPS || '';
+var something = {}
+process.argv.filter( function( argument ) {
+	return ( argument.split('=').length == 2 );
+}).forEach( function( argument ) {
+	var s = argument.split('=');
+	something[ s[0] ] = s[1];
+});
+
+
+var BAMBOO_AWS_ID = something.awsID || process.env.BAMBOO_AWS_ID;
+var BAMBOO_AWS_SECRET = something.secret || process.env.BAMBOO_AWS_SECRET;
+var BAMBOO_AWS_REGION = something.region || process.env.BAMBOO_AWS_REGION || 'us-east-1';
+var BAMBOO_AWS_STACKS = something.stacks || process.env.BAMBOO_AWS_STACKS || '';
+var BAMBOO_AWS_APPS = something.apps || process.env.BAMBOO_AWS_APPS || '';
 
 var config = new AWS.Config({
 	accessKeyId: BAMBOO_AWS_ID,
