@@ -22,11 +22,10 @@ var config = new AWS.Config({
 });
 
 var opsworks = new AWS.OpsWorks( config );
-var stackNames = BAMBOO_AWS_STACKS.split(',');
-var appNames = BAMBOO_AWS_APPS.split(',');
+var stackIds = BAMBOO_AWS_STACKS.split(',');
+var appIds = BAMBOO_AWS_APPS.split(',');
 
 var fireDeploy = function( stackID , appID ) {
-	
 	var params = {
 		Command: {
 			Name: 'deploy'
@@ -41,8 +40,9 @@ var fireDeploy = function( stackID , appID ) {
 };
 
 var findInterestingApps = function( data ) {
+	console.log('Found apps:', data.Apps);
 	data.Apps.filter( function( app ) {
-		return appNames.indexOf( app.Name ) >= 0;
+		return appIds.indexOf( app.AppId ) >= 0;
 	}).forEach( function( app ) {
 		fireDeploy( app.StackId , app.AppId );
 	});
@@ -60,9 +60,9 @@ var describeAppsInStack = function( stackID ) {
 };
 
 var findInterestingStacks = function( data ) {
-	console.log( 'Looking for stacks' );
+	console.log( 'Looking for stacks', data.Stacks );
 	data.Stacks.filter( function( stack ) {
-		return stackNames.indexOf( stack.Name ) >= 0;
+		return stackIds.indexOf( stack.StackId ) >= 0;
 	}).forEach( function( stack ) {
 		describeAppsInStack( stack.StackId );
 	});
